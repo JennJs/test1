@@ -1,7 +1,5 @@
 import React from 'react';
-import axios from 'axios';
-import { Buffer } from "buffer";
-
+import {userLogin} from '../API/userLogin';
 
 class Login extends React.Component {
   constructor(props) {
@@ -10,29 +8,17 @@ class Login extends React.Component {
       username: '',
       password: '',
       userId: '',
-      errors: ''
+      error: ''
     };
   } 
   
-  userLogin = async() => {
-    const encodedBase64Token = Buffer.from(`${this.state.username}:${this.state.password}`).toString('base64');
-    const authorization = `Basic ${encodedBase64Token}`;
-    await axios.get('https://cloud-api.10levels.ru/v1/login/basic', {
-      headers: {
-        Authorization: authorization
-      }
-    })
-    .then((response) => {
-      this.setState({userId: response.data.content.id});
-      this.setState({errors: ''})
-    })
-    .catch((error) => {
-      this.setState({errors: error.response.data})
-      this.setState({userId: ''});
-    }); 
+  userLoginCall = async () => {
+    let userData = await userLogin( this.state.username, this.state.password);
+    this.state.userId = userData.id;
+    this.state.error = userData.error;
     this.setState({username: '', password: ''});
   }
-
+  
   getEmail = (event) => {
     this.setState({username: event.target.value });
   }
@@ -43,23 +29,20 @@ class Login extends React.Component {
 
   render() { 
     return ( 
-      <> 
-        <div id='form'>
-            <label htmlFor="email">Email</label>
-            <input type="email" id='email' name='email' value={this.state.username} onChange={this.getEmail} />
-            <label htmlFor="pass">Пароль</label>
-            <input type="passsword" id='pass' name='password' value={this.state.password} onChange={this.getPass} />
-          <input type="button" value="Войти"  onClick={this.userLogin} />
-          { this.state.userId &&
-             <div> Идентификатор пользователя: {this.state.userId}</div>
-          }
-           { this.state.errors &&
-             <div id='error'> {this.state.errors}</div>
-          }
-        </div>
-      </>  
+      <div id='form'>
+        <label htmlFor="email">Email</label>
+        <input type="email" id='email' name='email' value={this.state.username} onChange={this.getEmail} />
+        <label htmlFor="pass">Пароль</label>
+        <input type="passsword" id='pass' name='password' value={this.state.password} onChange={this.getPass} />
+        <input type="button" value="Войти"  onClick={this.userLoginCall} />
+        { this.state.userId &&
+          <div> Идентификатор пользователя: {this.state.userId}</div>
+        }
+        { this.state.error &&
+          <div id='error'> {this.state.error}</div>
+        }
+      </div>
     );
   }
 }
- 
 export default Login;

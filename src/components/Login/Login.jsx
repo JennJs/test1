@@ -14,31 +14,23 @@ class Login extends React.Component {
   
   userLoginCall = async () => {
     let userData = await userLogin( this.state.username, this.state.password);
-    this.state.userId = userData.id;
-    this.state.error = userData.error;
-    this.setState({username: '', password: ''});
+    this.setState({userId: userData.id, error: userData.error, username: '', password: ''});
   }
   
-  getEmail = (event) => {
-    this.setState({username: event.target.value });
-  }
-
-  getPass = (event) => {
-    this.setState({password: event.target.value });
-  }
+  getData = (event , field) => this.setState(() => ({[field]: event.target.value}));
 
   render() { 
     return ( 
       <div id='form'>
         <label htmlFor="email">Email</label>
-        <input type="email" id='email' name='email' value={this.state.username} onChange={this.getEmail} />
+        <input type="email" id='email' name='email' value={this.state.username} onChange={event => this.getData(event, 'username')} />
         <label htmlFor="pass">Пароль</label>
-        <input type="passsword" id='pass' name='password' value={this.state.password} onChange={this.getPass} />
+        <input type="passsword" id='pass' name='password' value={this.state.password} onChange={event => this.getData(event, 'password')} />
         <input type="button" value="Войти"  onClick={this.userLoginCall} />
-        { this.state.userId &&
+        { this.state.userId !== '' &&
           <div> Идентификатор пользователя: {this.state.userId}</div>
         }
-        { this.state.error &&
+        { this.state.error !== '' &&
           <div id='error'> {this.state.error}</div>
         }
       </div>

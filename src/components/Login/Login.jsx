@@ -1,5 +1,7 @@
 import React from 'react';
 import {userLogin} from '../API/userLogin';
+// import { Box } from '@mui/system';
+import { TextField, Button, Typography, Box } from '@mui/material';
 
 class Login extends React.Component {
   constructor(props) {
@@ -21,19 +23,46 @@ class Login extends React.Component {
 
   render() { 
     return ( 
-      <div id='form'>
-        <label htmlFor="email">Email</label>
-        <input type="email" id='email' name='email' value={this.state.username} onChange={event => this.getData(event, 'username')} />
-        <label htmlFor="pass">Пароль</label>
-        <input type="passsword" id='pass' name='password' value={this.state.password} onChange={event => this.getData(event, 'password')} />
-        <input type="button" value="Войти"  onClick={this.userLoginCall} />
-        { this.state.userId !== '' &&
-          <div> Идентификатор пользователя: {this.state.userId}</div>
+      <>
+      <Typography variant="h5" sx={{textAlign: 'center', mt: 8}}>
+        Login
+      </Typography>
+      <Box component="div" id='form' sx={{ pt: 5, border: '1px solid black', borderRadius: '10px', width: 350, height: 200, mx: 'auto', mt: 2, display: 'block', textAlign: 'center', backgroundColor: '#123456'}}> 
+        <TextField 
+          id="email" 
+          label="Email"
+          variant="outlined" 
+          value={this.state.username}
+          onChange={event => this.getData(event, 'username')}
+          size="small"
+          margin="dense"
+          />
+          <TextField 
+          id="pass" 
+          label="Password"
+          variant="outlined" 
+          value={this.state.password}
+          onChange={event => this.getData(event, 'password')}
+          size="small"
+          margin="dense"
+          />
+          <Button variant="contained" onClick={this.userLoginCall} sx={{display: 'block', mt: 2, mx: 'auto'}}>Войти</Button>
+          
+      </Box>
+      { this.state.userId !== '' &&
+        <Typography  variant="h5" sx={{textAlign: 'center', mt: 2}}>
+          Идентификатор пользователя: {this.state.userId}
+        </Typography> 
         }
-        { this.state.error !== '' &&
-          <div id='error'> {this.state.error}</div>
-        }
-      </div>
+      { this.state.error !== '' &&
+        <Typography id='error' variant="h5" sx={{textAlign: 'center', mt: 2}}>
+          {this.state.error}
+        </Typography> 
+      }
+      
+      </>
+      
+     
     );
   }
 }

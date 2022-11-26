@@ -6,8 +6,7 @@ export const userLogin = async (userName, password) => {
 
     try {
         const encodedBase64Token = Buffer.from(`${userName}:${password}`).toString(
-        'base64'
-        );
+        'base64');
         const authorization = `Basic ${encodedBase64Token}`;
         const response = await axios.get(
         'https://cloud-api.10levels.ru/v1/login/basic',

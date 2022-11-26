@@ -1,6 +1,7 @@
 import React from 'react';
 import { TextField, Button, Typography, Box, Link } from '@mui/material';
 import { userRegistration } from '../../api/userRegistration';
+import { Profile } from '../Profile/Profile';
 
 export class Registration extends React.Component {
     constructor(props) {
@@ -68,23 +69,24 @@ export class Registration extends React.Component {
                 onChange={(event) => this.getData(event, 'password')}
             />
             <Button
-                variant="contained"
                 sx={{ display: 'block', mt: 2, mx: 'auto', mb: 2 }}
                 onClick={this.userRegistrationCall}
             >
                 Зарегистрироваться
             </Button>
             <Button
-                color="inherit"
+                variant="contained"
                 onClick={this.props.onclick}
             >
                 Уже есть учетная запись
             </Button>
             </Box>
             {this.state.userId !== '' && (
-            <Typography variant="h5" sx={{ textAlign: 'center', mt: 2 }}>
+            <> <Typography variant="h5" sx={{ textAlign: 'center', mt: 2 }}>
                 Идентификатор пользователя: {this.state.userId}
             </Typography>
+            <Profile />
+            </>
             )}
             {this.state.error !== '' && (
             <Typography

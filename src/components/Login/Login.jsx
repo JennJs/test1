@@ -1,6 +1,7 @@
 import React from 'react';
 import { TextField, Button, Typography, Box, Link } from '@mui/material';
 import { userLogin } from '../../api/userLogin';
+import { Profile } from '../Profile/Profile';
 
 export class Login extends React.Component {
     constructor(props) {
@@ -75,15 +76,19 @@ export class Login extends React.Component {
                 </Button>
                 <Button
                     color="inherit"
+                    px='5px'
                     onClick={this.props.onclick}
                 >
                     Зарегистрироваться
                 </Button>
             </Box>
             {this.state.userId !== '' && (
-            <Typography variant="h5" sx={{ textAlign: 'center', mt: 2 }}>
+            <Box> 
+                <Typography variant="h5" sx={{ textAlign: 'center', mt: 2 }}>
                 Идентификатор пользователя: {this.state.userId}
             </Typography>
+            <Profile userId = {this.state.userId}/>
+            </Box>
             )}
             {this.state.error !== '' && (
             <Typography
